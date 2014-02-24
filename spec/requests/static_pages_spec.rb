@@ -9,9 +9,9 @@ describe "Static pages" do
       expect(page).to have_content('E-Scheduler')
     end
 
-		it "should have the title 'Home'" do
+		it "should have the title 'Scheduler'" do
       visit '/static_pages/home'
-      expect(page).to have_title("Home")
+      expect(page).to have_title("Scheduler")
     end
 
 	end
