@@ -32,5 +32,23 @@ describe "Static pages" do
 		it { should have_content('About') }
 		it { should have_title("About") }
 	end
+
+	describe "Sign up page" do
+    before { visit signup_path}
+
+		it { should have_content('Sign up') }
+		it { should have_title("Sign up") }
+	end
+
 	
+	it "should have the right links on the layout" do
+    visit root_path
+    click_link "About"
+    expect(page).to have_title("About")
+    click_link "Pricing"
+    expect(page).to have_title("Pricing")
+    click_link "Contact"
+    expect(page).to have_title("Contact")
+  end
+
 end
