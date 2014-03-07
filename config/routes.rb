@@ -1,5 +1,5 @@
 Scheduler::Application.routes.draw do
-  get "users/new"
+  resources :users
 	root  'static_pages#home'
 	match '/pricing', to: 'static_pages#pricing', via: 'get'
   match '/about',   to: 'static_pages#about',   via: 'get'
