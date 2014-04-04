@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Provider do
 
   before do
-    @provider = Provider.new(username: "Example User", email: "user@example.com", office: 1, role: 1, access: 1, password_digest: "adfkljdasadsdaadfaklk32kl", password: "foobar", password_confirmation: "foobar")
+    @provider = Provider.new(username: "Example User", email: "user@example.com", office_id: 1, role: 1, access: 1, password_digest: "adfkljdasadsdaadfaklk32kl", password: "foosbars", password_confirmation: "foosbars")
   end
 
   subject { @provider }
 
   it { should respond_to(:username) }
   it { should respond_to(:email) }
-	it { should respond_to(:office) }
+	it { should respond_to(:office_id) }
   it { should respond_to(:role) }
   it { should respond_to(:access) }
 	it { should respond_to(:password) }
@@ -30,7 +30,7 @@ describe Provider do
   end
 
   describe "when office is not present" do
-    before { @provider.office = " " }
+    before { @provider.office_id = " " }
     it { should_not be_valid }
   end
 

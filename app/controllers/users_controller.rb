@@ -1,34 +1,34 @@
 class UsersController < ApplicationController
-	before_action :signed_in_user, only: [:index, :show, :edit, :update]
-	before_action :correct_user,   only: [:index, :show, :edit, :update]
+  before_action :signed_in_user, only: [:index, :show, :edit, :update]
+  before_action :correct_user,   only: [:index, :show, :edit, :update]
 
-	def index
-		@users = User.paginate(page: params[:page])
+  def index
+    @users = User.paginate(page: params[:page])
   end
 	
   def show
     @user = User.find(params[:id])
   end
 
-	def new
-		@user = User.new
+  def new
+    @user = User.new
   end
 	
-	def create
+  def create
     @user = User.new(user_params)
     if @user.save
-			sign_in @user
-			flash[:success] = "Welcome to Scheduler!"
+      sign_in @user, "user"
+      flash[:success] = "Welcome to Scheduler!"
       redirect_to @user
     else
       render 'new'
     end
   end
 
-	def edit
+  def edit
   end
 	
-def update
+  def update
     if @user.update_attributes(user_params)
       flash[:success] = "Profile updated"
       redirect_to @user
@@ -44,7 +44,7 @@ def update
                                    :password_confirmation)
     end
 		
-		# Before filters
+    # Before filters
 
     def signed_in_user
       unless signed_in?

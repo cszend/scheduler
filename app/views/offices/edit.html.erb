@@ -1,0 +1,89 @@
+<% provide(:title, "Edit user") %>
+<h1>Update your Office</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@office) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+			
+	<% if @office.status == 4 %>
+          <%= f.label :status, class: "inline" %>
+          <%= f.select :status, options_for_select([['Active', 4],['Pause my Account', 3],['Close my Account', 0]]), class: "input-mini" %>
+	<% elsif @office.status == 3 %>
+          <%= f.label :status, class: "inline" %>
+          <%= f.select :status, options_for_select([['Paused', 3],['Activate my Account', 4],['Close my Account', 0]]), class: "input-mini" %>
+	<% elsif @office.status == 2 %>
+	     <div id="office_status_alert">Your account is still being approved.</div>
+	<% elsif @office.status == 1 %>
+	     <div id="office_status_alert">Your account has been suspended. Please contact customer service.</div>
+	<% elsif @office.status == 0 %>
+	     <div id="office_status_alert">Your account has been closed.</div>
+	<% end %>
+
+        <%= f.label :time_zone %>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
+
+      <div class="form-group" style="margin-bottom: 15px">
+        <label>Would you like to have your business listed in our public directory?</label>
+        <%= f.label :listed, :value => 0, class: "radio inline" do %>
+          <%= f.radio_button :listed, 0, :checked => true %>
+	  No
+        <% end %>
+        <%= f.label :listed, :value => 1, class: "radio inline" do %>
+          <%= f.radio_button :listed, 1 %>
+          Yes
+        <% end %>
+      </div>
+			
+      <!-- <div id="extra-info"> -->
+			
+        <div class="form-group">
+          <%= f.label :street %>
+          <%= f.text_field :street %>
+        </div>
+
+        <div class="controls controls-row">
+          <%= f.label :city, class: "inline" %>
+          <%= f.text_field :city %>
+				
+          <%= f.label :state, class: "inline" %>
+          <%= f.select :state, options_for_select([['', ''],['AK', 'AK'],['AL', 'AL'],['AR', 'AR'],['AZ', 'AZ'],['CA', 'CA'],['CO', 'CO'],['CT', 'CT'],['DC', 'DC'],['DE', 'DE'],['FL', 'FL'],['GA', 'GA'],['HI', 'HI'],['IA', 'IA'],['ID', 'ID'],['IL', 'IL'],['IN', 'IN'],['KS', 'KS'],['KY', 'KY'],['LA', 'LA'],['MA', 'MA'],['MD', 'MD'],['ME', 'ME'],['MI', 'MI'],['MN', 'MN'],['MO', 'MO'],['MS', 'MS'],['MT', 'MT'],['NC', 'NC'],['ND', 'ND'],['NE', 'NE'],['NH', 'NH'],['NJ', 'NJ'],['NM', 'NM'],['NV', 'NV'],['NY', 'NY'],['OH', 'OH'],['OK', 'OK'],['OR', 'OR'],['PA', 'PA'],['RI', 'RI'],['SC', 'SC'],['SD', 'SD'],['TN', 'TN'],['TX', 'TX'],['UT', 'UT'],['VA', 'VA'],['VT', 'VT'],['WA', 'WA'],['WI', 'WI'],['WV', 'WV'],['WY', 'WY']]), class: "input-mini" %>
+			
+          <%= f.label :zip %>
+	  <%= f.text_field :zip %>
+        </div>
+			
+        <div class="form-group">
+          <%= f.label :phone %>
+          <%= f.text_field :phone %>
+        </div>
+			
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.text_field :email %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :hours %>
+          <%= f.text_field :hours %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description %>
+          <%= f.text_area :description, size: "24x12" %>
+        </div>
+			
+        <div class="form-group">
+          <%= f.label :category %>
+          <%= f.text_field :category %>
+        </div>
+	<!-- </div> -->
+
+      <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <% end %>
+
+  </div>
+</div>
