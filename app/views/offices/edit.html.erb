@@ -9,12 +9,16 @@
         <%= f.label :name %>
         <%= f.text_field :name %>
 			
+
+          <%= f.label :status, class: "inline" %>
+          <%= f.select(:status, [['Close my Account', 0], ['Suspend', 1], ['Apply', 2], ['Pause my Account', 3], ['Active', 4]], class: "input-mini") %>
+<!--
 	<% if @office.status == 4 %>
           <%= f.label :status, class: "inline" %>
-          <%= f.select :status, options_for_select([['Active', 4],['Pause my Account', 3],['Close my Account', 0]]), class: "input-mini" %>
+          <%= f.select(:status, [['Active', 4],['Pause my Account', 3],['Close my Account', 0]], class: "input-mini") %>
 	<% elsif @office.status == 3 %>
           <%= f.label :status, class: "inline" %>
-          <%= f.select :status, options_for_select([['Paused', 3],['Activate my Account', 4],['Close my Account', 0]]), class: "input-mini" %>
+          <%= f.select(:status, [['Paused', 3],['Activate my Account', 4],['Close my Account', 0]], class: "input-mini") %>
 	<% elsif @office.status == 2 %>
 	     <div id="office_status_alert">Your account is still being approved.</div>
 	<% elsif @office.status == 1 %>
@@ -22,7 +26,7 @@
 	<% elsif @office.status == 0 %>
 	     <div id="office_status_alert">Your account has been closed.</div>
 	<% end %>
-
+-->
         <%= f.label :time_zone %>
         <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
 

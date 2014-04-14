@@ -3,11 +3,13 @@ class OfficesController < ApplicationController
   before_action :is_signed_in_provider, only: [:edit, :update]
   before_action :is_admin_user,   only: [:edit, :update]
   before_action :is_listed,   only: [:show]
+#  before_action :status_is_pending, only: [:create]
 
   around_filter :user_time_zone, only: [:show]
 
   def show
     @office = Office.find(params[:id])
+    @providers = @office.providers.where(role: 2)
   end
 
   def new
@@ -17,25 +19,50 @@ class OfficesController < ApplicationController
 	
   def create
     @office=Office.new(office_create_params)
-    if @office.save
-      @office.providers.first.update_attribute(:access, 4)
-      sign_in @office.provider, "provider"
-      flash[:success] = "Welcome to your new Scheduling Assistant!"
-      redirect_to @office
-    else
-      render 'new'
-    end
+      if params[:office][:status].to_i != 2
+        redirect_to root_url, notice: "You cannot alter the status of the office until after it has been created."
+      else
+        if @office.save
+          @office.providers.first.update_attribute(:access, 4)
+          sign_in @office.providers.first, "provider"
+          flash[:success] = "Welcome to your new Scheduling Assistant!"
+          redirect_to @office
+        else
+          render 'new'
+        end
+      end
   end
   
   def edit
-    @office = current_provider.office
+    @office = Office.find(params[:id])
   end
 
   def update
+    @office = Office.find(params[:id])
+    old_status = @office.status
     if @office.update_attributes(office_update_params)
-      flash[:success] = "Office updated"
+      if (0..2).member?(old_status)
+        if old_status == params[:office][:status].to_i
+  	  status_ok = "yes"
+	else
+          status_ok = "no"
+        end
+      elsif (3..4).member?(old_status)
+        if (3..4).member?(params[:office][:status].to_i) or params[:office][:status].to_i == 0
+  	  status_ok = "yes"
+	else
+          status_ok = "no"
+        end
+      end
+      if status_ok == "no"
+        @office.reload
+	@office.update_attribute(:status, old_status)
+	message_addendum = "- But invalid option for status was ignored!"
+      end
+      flash[:success] = "Office updated #{message_addendum}"
       redirect_to @office
     else
+      flash[:error] = "Changes could not be saved."
       render 'edit'
     end
   end
@@ -83,6 +110,13 @@ class OfficesController < ApplicationController
       @office = Office.find(params[:id])
       unless @office.listed == 1 
         is_signed_in_provider
+      end
+    end
+
+    def is_active
+      @office = Office.find(params[:id])
+      unless @office.status == 4 
+        redirect_to root_url, notice: "Account is not active."
       end
     end
 end

@@ -1,7 +1,7 @@
 class Provider < ActiveRecord::Base
   belongs_to :office #, inverse_of: :offices
   #validates_presence_of :office
-	
+
   before_save { self.email = email.downcase }
   before_create :create_remember_token
 

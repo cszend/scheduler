@@ -1,0 +1,2 @@
+<p><%= provider.username %> <%= link_to 'Edit', edit_provider_path(provider.id) if has_access_level?(4, provider.office_id) or current_provider?(provider)  %><br />
+<%= link_to "Make an Appointment", "#", class: "btn" if @office.listed == 1 %><%= link_to "Change / Cancel an Appointment", "#", class: "btn" if has_access_level?(2, provider.office_id) %><%= link_to "Change Slots", "#", class: "btn" if has_access_level?(3, provider.office_id) %></p>

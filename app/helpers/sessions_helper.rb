@@ -47,6 +47,10 @@ module SessionsHelper
     provider == current_provider
   end
 
+  def has_access_level?(min, requested_office_id)
+    current_provider.access >= min and current_provider.office_id == requested_office_id
+  end
+
   def sign_out
     if current_provider.respond_to?('update_attribute')
       current_provider.update_attribute(:remember_token, Provider.hash(Provider.new_remember_token))

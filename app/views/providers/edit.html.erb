@@ -1,0 +1,51 @@
+<% provide(:title, 'Edit user') %>
+<h1>Edit user</h1>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @provider do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.text_field :email, class: "span4" %>
+      </div>
+					
+      <div class="form-group">
+        <%= f.label :username %>
+        <%= f.text_field :username, class: "span4" %>
+      </div>
+
+
+      <% if current_provider.access == 4 %>
+      <div class="form-group" style="margin-bottom: 15px">
+        <label style="margin-bottom: 5">Role</label>
+        <%= f.label :role, :value => 1, class: "radio inline" do %>
+          <%= f.radio_button :role, 1, :checked => true %>
+          Support Staff
+        <% end %>
+        <%= f.label :role, :value => 2, class: "radio inline" do %>
+          <%= f.radio_button :role, 2 %>
+          Service Provider
+        <% end %>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 15px">
+        <label style="margin-bottom: 5">Access</label>
+        <%= f.select(:access, [['Blocked', 0], ['Read-only', 1], ['Create / Modify appointments', 2], ['Create / Modify slots', 3], ['Admin (Create / Delete users)', 4]], {prompt: 'Select Access Level'}) %>
+      </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: "span4" %>
+      </div>
+					
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Confirmation" %>
+        <%= f.password_field :password_confirmation, class: "span4" %>
+      </div>
+      
+      <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
